@@ -1,19 +1,4 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///hatchways'
-app.config['SQLALCHEMY_ECHO'] = True
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-db.init_app(app)
-
-
-@app.route("/")
-def hello():
-    return {"yo": "world"}
+from app import db
 
 
 class Student(db.Model):
@@ -58,7 +43,3 @@ class Mark(db.Model):
     mark = db.Column(db.Integer())
     test_id = db.Column(db.Integer(), db.ForeignKey('tests.id'))
     student_id = db.Column(db.Integer(), db.ForeignKey('students.id'))
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
